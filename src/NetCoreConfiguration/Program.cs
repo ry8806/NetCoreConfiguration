@@ -10,12 +10,14 @@ namespace NetCoreConfiguration
     {
         public static void Main(string[] args)
         {
+            // In ASP.Net Apps this can come from StartUp.cs - Constructor - being injected with IHostingEnvironment.EnvironmentName
             var environment = "development";
+
             // Set up configuration sources.
-            var builder = new ConfigurationBuilder()
+            IConfigurationBuilder builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{environment}.json", optional: true);
-            var configuration = builder.Build();
+            IConfigurationRoot configuration = builder.Build();
 
             // Is "1.0.0" (from appsettings.json)
             string version = configuration["Version"];
@@ -26,15 +28,16 @@ namespace NetCoreConfiguration
             // Is "http://test.myapi.com/" (from appsettings.development.json)
             string apiAddress = configuration["ApiAddress"];
 
-            // Is ["Steve", "Lucy", "Harry"] (from appsettings.json)
-            var users = configuration.GetSection("Auth:Users").GetChildren().Select(x => x.Value);
+            /////---from appsettings.json----////   ///----from appsettings.development.json----///
+            // Is ["Steve", "Lucy",                                    "Alien"]
+            IEnumerable<string> users = configuration.GetSection("Auth:Users").GetChildren().Select(x => x.Value);
 
-            ///// ------------- From appsettings.json ------------ /////   /// From appsettings.development.json ///
-            // Is ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",          "Saturday", "Sunday"]
-            var availableDays = configuration.GetSection("ServerAvailable:Days").GetChildren().Select(x => x.Value);
+            /////------------- From appsettings.json------------/////        /// From appsettings.development.json ///
+            // Is ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",             "Saturday", "Sunday"]
+            IEnumerable<string> availableDays = configuration.GetSection("ServerAvailable:Days").GetChildren().Select(x => x.Value);
 
             // Is [12] (from appsettings.development.json)
-            var updateAtHours = configuration.GetSection("UpdatesOn:Hours").GetChildren().Select(x => x.Value);
+            IEnumerable<string> updateAtHours = configuration.GetSection("UpdatesOn:Hours").GetChildren().Select(x => x.Value);
 
             Console.ReadLine();
         }
