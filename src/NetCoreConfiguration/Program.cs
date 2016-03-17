@@ -22,7 +22,7 @@ namespace NetCoreConfiguration
             // Is "1.0.0" (from appsettings.json)
             string version = configuration["Version"];
 
-            // Is "test-key" (from appsettings.development.json)
+            // Is "my-dev-key" (from appsettings.development.json)
             string apiKey = configuration["ApiKey"];
 
             // Is "http://test.myapi.com/" (from appsettings.development.json)
