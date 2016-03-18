@@ -36,7 +36,8 @@ namespace NetCoreConfiguration
             // Is ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",             "Saturday", "Sunday"]
             IEnumerable<string> availableDays = configuration.GetSection("ServerAvailable:Days").GetChildren().Select(x => x.Value);
 
-            // Is [12] (from appsettings.development.json)
+            /////---From appsettings.development.json---///// /// From appsettings.json ///
+            //        Is [3,                                             21, 23] 
             IEnumerable<string> updateAtHours = configuration.GetSection("UpdatesOn:Hours").GetChildren().Select(x => x.Value);
 
             Console.ReadLine();
